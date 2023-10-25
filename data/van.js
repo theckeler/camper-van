@@ -45,13 +45,11 @@ const data = {
 			href: "https://adventurewagon.com/pages/interiorsystem",
 			price: null,
 		},
-		cabin: {
-			headlinerShelf: {
-				brand: "Radius Outfitters",
-				product: "Gear Loft",
-				href: "https://radiusoutfitters.com/products/sprinter-headliner-overhead-shelf",
-				price: 649,
-			},
+		headlinerShelf: {
+			brand: "Radius Outfitters",
+			product: "Gear Loft",
+			href: "https://radiusoutfitters.com/products/sprinter-headliner-overhead-shelf",
+			price: 649,
 		},
 		refrigeration: {
 			brand: "Dometic",
@@ -71,59 +69,53 @@ const data = {
 			href: "https://www.rei.com/product/206379/ecoflow-delta-pro-portable-power-station",
 			price: 2999,
 		},
-		ventilation: [
-			{
-				brand: "Maxxair",
-				product: "Deluxe 00-07500K",
-				href: "https://flatlinevanco.com/products/sprinter-side-ladder?variant=39758324728003",
-				price: 329,
-			},
-			{
-				brand: "Maxxair",
-				product: "Deluxe 00-07500K",
-				href: "https://flatlinevanco.com/products/sprinter-side-ladder?variant=39758324728003",
-				price: 329,
-			},
-		],
+		ventilation: {
+			brand: "Maxxair",
+			product: "Deluxe 00-07500K",
+			href: "https://flatlinevanco.com/products/sprinter-side-ladder?variant=39758324728003",
+			price: 329,
+		},
 		flooring: {
-			options: [
-				{
-					brand: "Smartfloor",
-					product: "Aluminum Floor Solution",
-					href: "https://www.amfbrunsamerica.com/products/smartfloor/",
-					price: 6365,
-				},
-			],
+			complete: {
+				brand: "Smartfloor",
+				product: "Aluminum Floor Solution",
+				href: "https://www.amfbrunsamerica.com/products/smartfloor/",
+				price: 6365,
+			},
 			extension: {
 				brand: "FVCO",
 				product: "Step Extension",
 				href: "https://flatlinevanco.com/products/the-extension",
 				price: 295,
 			},
-			coveringOptions: [
-				{
-					brand: "2tec2",
-					product: "vinyl woven flooring",
-					href: "https://www.2tec2.com/woven-vinyl-floors",
-					price: 1400,
-				},
-				{
-					brand: "lonseal",
-					product: "LONCOIN® II",
-					href: "https://lonseal.com/products/product-details/line/LONCOINsupregsupII/",
-					price: null,
-				},
-			],
+			covering: {
+				radio: [
+					{
+						brand: "2tec2",
+						product: "vinyl woven flooring",
+						href: "https://www.2tec2.com/woven-vinyl-floors",
+						price: 1400,
+					},
+					{
+						brand: "lonseal",
+						product: "LONCOIN® II",
+						href: "https://lonseal.com/products/product-details/line/LONCOINsupregsupII/",
+						price: null,
+					},
+				],
+			},
 		},
 		garage: {
-			storage: [
-				{
-					brand: "Canyon Adventure Vans",
-					product: "Doorganizer",
-					href: "https://canyonadventurevans.com/product/van-door-organizer/",
-					price: 70,
-				},
-			],
+			storage: {
+				checkbox: [
+					{
+						brand: "Canyon Adventure Vans",
+						product: "Doorganizer",
+						href: "https://canyonadventurevans.com/product/van-door-organizer/",
+						price: 70,
+					},
+				],
+			},
 			pullOutTray: {
 				brand: "FVCO",
 				product: "Adventure Van Pull Out Tray",
@@ -137,13 +129,11 @@ const data = {
 				price: 470,
 			},
 		},
-		bathroom: {
-			toilet: {
-				brand: "Clean Waste",
-				product: "GO Anywhere Portable Toilet",
-				href: "https://cleanwaste.com/product/go-anywhere-portable-toilet/",
-				price: 960,
-			},
+		toilet: {
+			brand: "Clean Waste",
+			product: "GO Anywhere Portable Toilet",
+			href: "https://cleanwaste.com/product/go-anywhere-portable-toilet/",
+			price: 960,
 		},
 		technology: {
 			solarPanel: {
