@@ -150,7 +150,7 @@ export default function Home() {
 	/////
 
 	return (
-		<main className="flex items-center flex-col p-10 w-2xl">
+		<main className="flex items-center flex-col p-10 max-w-screen-xl mx-auto 2xl:p-2 mb-8">
 			<h1 className="text-2xl text-sky-800 mb-2 font-extrabold">
 				144 Sprinter AWD Van:
 			</h1>
