@@ -1,6 +1,5 @@
 "use client";
 import { Fragment, useState, useEffect } from "react";
-// import DataVan from "@/data/van";
 
 const DataVan = {
 	// category: {
@@ -41,13 +40,103 @@ const DataVan = {
 			href: "https://www.aluminess.com/sprinter-tire-carrier-box/",
 			price: 995,
 		},
+		windows: {
+			driverSideForward: {
+				brand: "AMA",
+				product: "Screened Half-Slider Window",
+				href: "https://vanlandstore.com/products/van-windows-direct-drivers-side-screened-half-slider-window-2007-2020",
+				price: 700,
+				note: "Driver Side Forward",
+			},
+			sliderSideForward: {
+				brand: "AMA",
+				product: "Screened Half-Slider Window",
+				href: "https://vanlandstore.com/products/van-windows-direct-drivers-side-screened-half-slider-window-2007-2020",
+				price: 700,
+				note: "Slider Side Forward",
+			},
+			cargoDoors: {
+				brand: "AMA",
+				product: "Solid Glass Window",
+				href: "https://vanlandstore.com/products/van-windows-direct-drivers-side-screened-half-slider-window-2007-2020",
+				price: 250,
+				multiplier: 2,
+				note: "Rear Doors",
+			},
+		},
 	},
 	interior: {
-		kit: {
-			brand: "Adventure Wagon",
-			product: "Modular Interior System",
-			href: "https://adventurewagon.com/pages/interiorsystem",
-			price: null,
+		adventureWagonKit: {
+			conversionKit: {
+				brand: "Adventure Wagon",
+				product: "Base Price",
+				href: "https://adventurewagon.com/pages/interiorsystem",
+				price: 16000,
+				note: `
+				<p><strong>Upholstery:</strong> Grey Heather</p>
+				<p><strong>Lighting:</strong> Installed (standard)</p>
+				
+				<p><strong>Panels:</strong></p>
+					<ul>
+						<li>Center Ceiling Panel:Black Hex</li>
+						<li>Upper wall/outer ceiling panel:Upholstered panels</li>
+						<li>Mid Wall Panel - Rear:Upholstered panel</li>
+						<li>Window Behind Driver:I do not have a window behind driver</li>
+						<li>Mid Wall Panel - Front:Upholstered Panel</li>
+						<li>Low Wall Panel:Black hex laminate</li>
+						<li>Upper door trim:Black Hex Laminate</li>
+						<li>Lower Door Trim:Black Hex Laminate</li>
+						<li>Cab Headliner:No headliner fabric</li>
+					</ul>
+
+					<p><strong>Storage Systems</strong></p>
+					<ul>
+						<li>Overhead Storage:No Overhead Storage</li>
+						<li>Headliner Storage:I don't need headliner storage</li>
+						<li>Rear Slide Out Tray:No Tray Needed</li>
+						<li>Cargo Control:No Strap Kit</li>
+						<li>Roof Racks:No roof rack</li>
+					</ul>
+
+					<p><strong>Climate Control</strong></p>
+					<p>3M Thinsulate Insulation:Wall and ceiling insulation (standard)</p>
+
+					<p><strong>Sound Dampening</strong></p>
+					<p>Hushmat Sound Dampening:Include (standard)</p>
+
+					<p>strong>Electrical</strong></p>
+					<p>Outlet Placement:Standard</p>
+				`,
+			},
+			lTrack: {
+				brand: "Adventure Wagon",
+				product: "Black anodized",
+				price: 500,
+				note: "",
+			},
+			frontFan: {
+				brand: "Maxxair",
+				product: "Deluxe 00-07500K",
+				href: "https://flatlinevanco.com/products/sprinter-side-ladder?variant=39758324728003",
+				price: 0,
+			},
+			rearFan: {
+				brand: "Maxxair",
+				product: "Deluxe 00-07500K",
+				price: 350,
+			},
+			bunkWindow: {
+				brand: "AMA",
+				product: "Driver Side Slider Install",
+				price: 600,
+				note: "Window trim fabric color:Grey Heather",
+			},
+			factroyInstallation: {
+				brand: "Adventure Wagon",
+				product: "Kit Install",
+				price: 6325,
+				note: "",
+			},
 		},
 		headlinerShelf: {
 			brand: "Radius Outfitters",
@@ -72,12 +161,6 @@ const DataVan = {
 			product: "DELTA Pro Portable Power Station",
 			href: "https://www.rei.com/product/206379/ecoflow-delta-pro-portable-power-station",
 			price: 2999,
-		},
-		ventilation: {
-			brand: "Maxxair",
-			product: "Deluxe 00-07500K",
-			href: "https://flatlinevanco.com/products/sprinter-side-ladder?variant=39758324728003",
-			price: 329,
 		},
 		flooring: {
 			complete: {
@@ -150,13 +233,13 @@ const DataVan = {
 				brand: "weBoost",
 				product: "Drive Reach RV Cell Phone Signal Booster Kit",
 				href: "https://www.weboost.com/products/drive-reach-rv-470154",
-				price: 499.99,
+				price: 500,
 			},
 			starlink: {
 				brand: "Starlink",
 				product: "Starlink Satellite Internet Dish",
 				href: "https://www.starlink.com/",
-				price: 499,
+				price: 500,
 			},
 			hornKit: {
 				brand: "Agile Offroad",
@@ -225,10 +308,12 @@ function OutputSub({ products }) {
 	);
 }
 
-function OutputPrice({ price }) {
+function OutputPrice({ price, multiplier = 1 }) {
 	//StateOfThings(price);
 	//setTotal(total + price);
-	return price > 0 ? `$${price}` : "";
+	const total = price * multiplier;
+
+	return price > 0 ? `$${total}` : "";
 }
 
 function OutputProduct({ titleBase }) {
@@ -253,34 +338,37 @@ function OutputMain({ title, titleBase, className }) {
 }
 
 function H2({ title }) {
-	return (
-		<h2 className="text-lg text-teal-800 font-semibold p-3">
-			{unCamelCase(title)}:
-		</h2>
-	);
+	return <h2 className="text-md font-semibold p-3">{unCamelCase(title)}:</h2>;
 }
 
-function CompileProduct({ brand, product, href, price }) {
+function CompileProduct({ brand, product, href, price, multiplier, note }) {
 	return (
 		<ul className="grid grid-cols-[1fr_48px_100px] items-center gap-1 p-1">
 			<li>
-				<span className="p-3  rounded w-full block">
-					{brand} {product}
+				<span className="p-3 rounded w-full block">
+					{brand} {product} {multiplier > 0 && `(X${multiplier})`}
 				</span>
 			</li>
 			<li>
-				<a
-					href={href}
-					target="_new"
-					className="bg-white fill-blue-200 h-12 w-12 p-3 border rounded hover:bg-red-600 hover:fill-white block relative z-20">
-					<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960">
-						<path d="M440-280H280q-83 0-141.5-58.5T80-480q0-83 58.5-141.5T280-680h160v80H280q-50 0-85 35t-35 85q0 50 35 85t85 35h160v80ZM320-440v-80h320v80H320Zm200 160v-80h160q50 0 85-35t35-85q0-50-35-85t-85-35H520v-80h160q83 0 141.5 58.5T880-480q0 83-58.5 141.5T680-280H520Z" />
-					</svg>
-				</a>
+				{href && (
+					<a
+						href={href}
+						target="_new"
+						className="bg-white fill-blue-200 h-12 w-12 p-3 border rounded hover:bg-red-600 hover:fill-white block relative z-20">
+						<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960">
+							<path d="M440-280H280q-83 0-141.5-58.5T80-480q0-83 58.5-141.5T280-680h160v80H280q-50 0-85 35t-35 85q0 50 35 85t85 35h160v80ZM320-440v-80h320v80H320Zm200 160v-80h160q50 0 85-35t35-85q0-50-35-85t-85-35H520v-80h160q83 0 141.5 58.5T880-480q0 83-58.5 141.5T680-280H520Z" />
+						</svg>
+					</a>
+				)}
 			</li>
 			<li className="text-right">
-				<OutputPrice price={price} />
+				<OutputPrice price={price} multiplier={multiplier} />
 			</li>
+			{note && (
+				<li>
+					<div className="p-3" dangerouslySetInnerHTML={{ __html: note }} />
+				</li>
+			)}
 		</ul>
 	);
 }
@@ -320,11 +408,11 @@ export default function Home() {
 
 	return (
 		<main className="flex items-center flex-col p-10 max-w-screen-xl mx-auto 2xl:p-2 mb-8">
-			<h1 className="text-2xl text-sky-800 mb-4 font-extrabold">
-				144 Sprinter AWD Van:
+			<h1 className="text-2xl text-blue-900 mb-4 font-extrabold">
+				2023 SPRINTER 144 HIGH ROOF AWD BUILD:
 			</h1>
 
-			<h2 className="text-xl text-emerald-800 mb-2 font-bold">Exterior:</h2>
+			<h2 className="text-xl text-blue-800 mb-2 font-bold">Exterior:</h2>
 			<ul className={ulCSS}>
 				{Object.keys(DataVan.exterior).map((title, i) => {
 					return (
@@ -332,13 +420,13 @@ export default function Home() {
 							title={title}
 							titleBase={DataVan.exterior[title]}
 							key={i}
-							className="bg-slate-200"
+							className="bg-blue-800 text-white"
 						/>
 					);
 				})}
 			</ul>
 
-			<h2 className="text-xl text-emerald-800 my-4 font-bold">Exterior:</h2>
+			<h2 className="text-xl text-blue-800 my-4 font-bold">Interior:</h2>
 			<ul className={ulCSS}>
 				{Object.keys(DataVan.interior).map((title, i) => {
 					return (
@@ -346,7 +434,7 @@ export default function Home() {
 							title={title}
 							titleBase={DataVan.interior[title]}
 							key={i}
-							className="bg-orange-100 rounded"
+							className="bg-blue-800 text-white rounded"
 						/>
 					);
 				})}
