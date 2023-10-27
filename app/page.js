@@ -265,7 +265,6 @@ export default function Home() {
 		let temp = [];
 		let total = 0;
 		getKeysLoop(DataVan);
-
 		function getKeysLoop(obj) {
 			Object.keys(obj).map((k, i, array) => {
 				if (typeof obj[k] == "object" && !obj[k].length) {
@@ -291,20 +290,20 @@ export default function Home() {
 				}
 			});
 		}
-
 		setOrderTotal(total);
 		setInputs({ test: temp });
 	}, []);
 
 	const handleChange = (e, checked) => {
 		const changeInput = inputs;
+		let total = 0;
 
 		if (e.currentTarget.type === "radio") {
 			document
 				.querySelectorAll(
 					`#inputs-container input[name="${e.currentTarget.name}"]`
 				)
-				.forEach((input, i) => {
+				.forEach((input) => {
 					changeInput.test[input.value] = {
 						...changeInput.test[input.value],
 						checked: false,
@@ -322,6 +321,16 @@ export default function Home() {
 		}
 
 		setInputs({ test: changeInput.test });
+
+		let newTotal = 0;
+		[...document.querySelectorAll(`#inputs-container input`)].map(
+			(input) =>
+				(newTotal =
+					input.dataset.price && input.checked === true
+						? newTotal + Number(input.dataset.price)
+						: newTotal)
+		);
+		setOrderTotal(newTotal);
 	};
 
 	const ulCSS = "grid grid-cols-[minmax(160px,_220px)_1fr] gap-2 w-full";
@@ -341,6 +350,7 @@ export default function Home() {
 									return (
 										<div key={i} className="flex gap-1">
 											<input
+												data-price={input.price}
 												className={`peer/${input.product
 													.replace(/\s/g, "-")
 													.toLowerCase()} mr-2`}
