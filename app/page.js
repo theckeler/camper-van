@@ -1,5 +1,6 @@
 "use client";
-import { Fragment, useState, useEffect } from "react";
+import { useState, useEffect } from "react";
+import { OutputMain } from "./componets/Output/";
 
 const DataVan = {
 	// category: {
@@ -55,18 +56,17 @@ const DataVan = {
 				price: 700,
 				note: "Slider Side Forward",
 			},
-			cargoDoors: {
+			rearDoors: {
 				brand: "AMA",
 				product: "Solid Glass Window",
 				href: "https://vanlandstore.com/products/van-windows-direct-drivers-side-screened-half-slider-window-2007-2020",
 				price: 250,
 				multiplier: 2,
-				note: "Rear Doors",
 			},
 		},
 	},
 	interior: {
-		adventureWagonKit: {
+		buildKit: {
 			conversionKit: {
 				brand: "Adventure Wagon",
 				product: "Base Price",
@@ -104,7 +104,7 @@ const DataVan = {
 					<p><strong>Sound Dampening</strong></p>
 					<p>Hushmat Sound Dampening:Include (standard)</p>
 
-					<p>strong>Electrical</strong></p>
+					<p><strong>Electrical</strong></p>
 					<p>Outlet Placement:Standard</p>
 				`,
 			},
@@ -129,7 +129,7 @@ const DataVan = {
 				brand: "AMA",
 				product: "Driver Side Slider Install",
 				price: 600,
-				note: "Window trim fabric color:Grey Heather",
+				note: "Window trim fabric color: Grey Heather",
 			},
 			factroyInstallation: {
 				brand: "Adventure Wagon",
@@ -182,12 +182,14 @@ const DataVan = {
 						product: "vinyl woven flooring",
 						href: "https://www.2tec2.com/woven-vinyl-floors",
 						price: 1400,
+						group: "covering",
 					},
 					{
 						brand: "lonseal",
 						product: "LONCOIN® II",
 						href: "https://lonseal.com/products/product-details/line/LONCOINsupregsupII/",
 						price: null,
+						group: "covering",
 					},
 				],
 			},
@@ -251,193 +253,154 @@ const DataVan = {
 	},
 };
 
-function OutputInputs({ inputs, subtitle }) {
-	const inputArray = inputs.radio ? inputs.radio : inputs.checkbox;
-	const inputType = inputs.radio ? "radio" : "checkbox";
-
-	return (
-		<>
-			{inputArray.map((input, i) => {
-				return (
-					<Fragment key={i}>
-						<div className="p-1 mb-1 relative">
-							{/* <input
-								className={`peer mr-2 hidden`}
-								id={input.product}
-								name={input.product}
-								value={input.product}
-								type={inputType}
-								checked={i === 0 || inputType === "checkbox" ? true : false}
-							/> */}
-							<label
-								className={`absolute top-0 left-0 w-full h-full z-10 border peer-checked:border-cyan-500 cursor-pointer`}
-								htmlFor={input.product}
-							/>
-							<CompileProduct {...input} />
-						</div>
-						{inputType === "radio" && i === 0 && (
-							<div className="text-xs w-full text-center p-1 text-red-500">
-								OR
-							</div>
-						)}
-					</Fragment>
-				);
-			})}
-		</>
-	);
-}
-
-function OutputSub({ products }) {
-	return (
-		<ul className="grid grid-cols-[200px_1fr]">
-			{Object.keys(products).map((title, i) => {
-				return products[title].product ? (
-					<OutputMain title={title} titleBase={products[title]} key={i} />
-				) : (
-					<Fragment key={i}>
-						<li>
-							<H2 title={title} />
-						</li>
-						<li>
-							<OutputInputs inputs={products[title]} subtitle={title} />
-						</li>
-					</Fragment>
-				);
-			})}
-		</ul>
-	);
-}
-
-function OutputPrice({ price, multiplier = 1 }) {
-	//StateOfThings(price);
-	//setTotal(total + price);
-	const total = price * multiplier;
-
-	return price > 0 ? `$${total}` : "";
-}
-
-function OutputProduct({ titleBase }) {
-	return titleBase.product ? (
-		<CompileProduct {...titleBase} />
-	) : (
-		<OutputSub products={titleBase} />
-	);
-}
-
-function OutputMain({ title, titleBase, className }) {
-	return (
-		<>
-			<li className={className}>
-				<H2 title={title} />
-			</li>
-			<li>
-				<OutputProduct titleBase={titleBase} />
-			</li>
-		</>
-	);
-}
-
-function H2({ title }) {
-	return <h2 className="text-md font-semibold p-3">{unCamelCase(title)}:</h2>;
-}
-
-function CompileProduct({ brand, product, href, price, multiplier, note }) {
-	return (
-		<ul className="grid grid-cols-[1fr_48px_100px] items-center gap-1 p-1">
-			<li>
-				<span className="p-3 rounded w-full block">
-					{brand} {product} {multiplier > 0 && `(X${multiplier})`}
-				</span>
-			</li>
-			<li>
-				{href && (
-					<a
-						href={href}
-						target="_new"
-						className="bg-white fill-blue-200 h-12 w-12 p-3 border rounded hover:bg-red-600 hover:fill-white block relative z-20">
-						<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960">
-							<path d="M440-280H280q-83 0-141.5-58.5T80-480q0-83 58.5-141.5T280-680h160v80H280q-50 0-85 35t-35 85q0 50 35 85t85 35h160v80ZM320-440v-80h320v80H320Zm200 160v-80h160q50 0 85-35t35-85q0-50-35-85t-85-35H520v-80h160q83 0 141.5 58.5T880-480q0 83-58.5 141.5T680-280H520Z" />
-						</svg>
-					</a>
-				)}
-			</li>
-			<li className="text-right">
-				<OutputPrice price={price} multiplier={multiplier} />
-			</li>
-			{note && (
-				<li>
-					<div className="p-3" dangerouslySetInnerHTML={{ __html: note }} />
-				</li>
-			)}
-		</ul>
-	);
-}
-
-function unCamelCase(str) {
-	return (
-		str
-			// insert a space between lower & upper
-			.replace(/([a-z])([A-Z])/g, "$1 $2")
-			// space before last upper in a sequence followed by lower
-			.replace(/\b([A-Z]+)([A-Z])([a-z])/, "$1 $2$3")
-			// uppercase the first character
-			.replace(/^./, function (str) {
-				return str.toUpperCase();
-			})
-	);
-}
-
 export default function Home() {
-	/////
-	// const [total, setTotal] = useState(0);
-	// useEffect(() => {
-	// 	console.log(total);
-	// }, [total]);
+	const [inputs, setInputs] = useState({});
+	const [orderTotal, setOrderTotal] = useState(0);
 
-	// useEffect(() => {
-	// 	console.log(total);
-	// }, [total]);
+	function updateTotal(price) {
+		setTotal(total + price);
+	}
 
-	const priceChange = (price) => {
-		setTotal(price);
+	useEffect(() => {
+		let temp = [];
+		let total = 0;
+		getKeysLoop(DataVan);
+
+		function getKeysLoop(obj) {
+			Object.keys(obj).map((k, i, array) => {
+				if (typeof obj[k] == "object" && !obj[k].length) {
+					getKeysLoop(obj[k]);
+				} else if (i === 0) {
+					if (k == "radio" || k == "checkbox") {
+						obj[k].forEach((items, i) => {
+							temp.push({
+								...items,
+								inputType: k,
+								checked:
+									(i == 0 && k == "radio") || k == "checkbox" ? true : false,
+							});
+							total =
+								(i == 0 && k == "radio") || k == "checkbox"
+									? total + items.price
+									: total;
+						});
+					} else {
+						temp.push({ ...obj, inputType: "checkbox", checked: true });
+						total = total + obj.price;
+					}
+				}
+			});
+		}
+
+		setOrderTotal(total);
+		setInputs({ test: temp });
+	}, []);
+
+	const handleChange = (e, checked) => {
+		const changeInput = inputs;
+
+		if (e.currentTarget.type === "radio") {
+			document
+				.querySelectorAll(
+					`#inputs-container input[name="${e.currentTarget.name}"]`
+				)
+				.forEach((input, i) => {
+					changeInput.test[input.value] = {
+						...changeInput.test[input.value],
+						checked: false,
+					};
+					changeInput.test[e.currentTarget.value] = {
+						...changeInput.test[e.currentTarget.value],
+						checked: true,
+					};
+				});
+		} else {
+			changeInput.test[e.currentTarget.value] = {
+				...changeInput.test[e.currentTarget.value],
+				checked: !checked,
+			};
+		}
+
+		setInputs({ test: changeInput.test });
 	};
-	/////
 
-	const ulCSS =
-		"grid grid-cols-[minmax(160px,_220px)_1fr] gap-4 border p-4 w-full";
+	const ulCSS = "grid grid-cols-[minmax(160px,_220px)_1fr] gap-2 w-full";
 
 	return (
-		<main className="flex items-center flex-col p-10 max-w-screen-xl mx-auto 2xl:p-2 mb-8">
-			<h1 className="text-2xl text-blue-900 mb-4 font-extrabold">
+		<main className="max-w-screen-2xl mx-auto p-2 lg:p-8">
+			<h1 className="text-2xl text-blue-900 mb-4 font-extrabold col-span-2 text-center">
 				2023 SPRINTER 144 HIGH ROOF AWD BUILD:
 			</h1>
+			<ul className="grid grid-cols-[200px_1fr] items-start gap-1 p-10 max-w-screen-2xl mx-auto 2xl:p-2 mb-8">
+				<li className="sticky top-0 p-2">
+					<div className="border p-4">
+						<div>Total: ${orderTotal}</div>
+						<div className="text-xs mt-2" id="inputs-container">
+							{inputs.test &&
+								inputs.test.map((input, i) => {
+									return (
+										<div key={i} className="flex gap-1">
+											<input
+												className={`peer/${input.product
+													.replace(/\s/g, "-")
+													.toLowerCase()} mr-2`}
+												id={input.product.replace(/\s/g, "-").toLowerCase()}
+												name={
+													input.inputType === "radio"
+														? input.group
+														: input.product
+												}
+												value={i}
+												type={input.inputType}
+												checked={input.checked}
+												onChange={(e) => handleChange(e, input.checked)}
+											/>
+											<label
+												className="truncate overflow-hidden"
+												htmlFor={input.product
+													.replace(/\s/g, "-")
+													.toLowerCase()}>
+												{input.product}
+											</label>
+										</div>
+									);
+								})}
+						</div>
+					</div>
+				</li>
+				<li className="p-2">
+					<div className="border p-4">
+						<h2 className="text-xl text-blue-800 mb-2 font-bold">Exterior:</h2>
+						<ul className={ulCSS}>
+							{Object.keys(DataVan.exterior).map((title, i) => {
+								return (
+									<OutputMain
+										title={title}
+										titleBase={DataVan.exterior[title]}
+										key={i}
+										className="bg-blue-800 text-white"
+										updateTotal={updateTotal}
+									/>
+								);
+							})}
+						</ul>
 
-			<h2 className="text-xl text-blue-800 mb-2 font-bold">Exterior:</h2>
-			<ul className={ulCSS}>
-				{Object.keys(DataVan.exterior).map((title, i) => {
-					return (
-						<OutputMain
-							title={title}
-							titleBase={DataVan.exterior[title]}
-							key={i}
-							className="bg-blue-800 text-white"
-						/>
-					);
-				})}
-			</ul>
-
-			<h2 className="text-xl text-blue-800 my-4 font-bold">Interior:</h2>
-			<ul className={ulCSS}>
-				{Object.keys(DataVan.interior).map((title, i) => {
-					return (
-						<OutputMain
-							title={title}
-							titleBase={DataVan.interior[title]}
-							key={i}
-							className="bg-blue-800 text-white rounded"
-						/>
-					);
-				})}
+						<h2 className="text-xl text-blue-800 my-4 font-bold">Interior:</h2>
+						<ul className={ulCSS}>
+							{Object.keys(DataVan.interior).map((title, i) => {
+								return (
+									<OutputMain
+										title={title}
+										titleBase={DataVan.interior[title]}
+										key={i}
+										className="bg-blue-800 text-white rounded"
+										updateTotal={updateTotal}
+									/>
+								);
+							})}
+						</ul>
+					</div>
+				</li>
 			</ul>
 		</main>
 	);
