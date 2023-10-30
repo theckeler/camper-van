@@ -1,21 +1,29 @@
 "use client";
+import { useState, useEffect } from "react";
 import { OutputPrice } from "./Output/OutputPrice";
 
-export function CompileProduct({ titleBase, updateTotal, checked }) {
+export function CompileProduct({ titleBase, updateTotal }) {
+	const id = titleBase.product.replace(/\s/g, "-").toLowerCase();
+
+	// useEffect(() => {
+	// 	const checked = document.querySelector(`#${id}`);
+	// 	console.log(id);
+	// }, [id]);
+
 	return (
-		<div className="p-1 mb-1 relative">
+		<div className="p-1 mb-1 relative product-list">
 			<label
 				className={`absolute top-0 left-0 w-full h-full z-10 border hover:border-cyan-500 cursor-pointer`}
-				htmlFor={titleBase.product.replace(/\s/g, "-").toLowerCase()}
+				htmlFor={id}
 			/>
-			<ul className="grid grid-cols-[1fr_48px_100px] items-center gap-1 p-1">
-				<li>
-					<span className="p-3 rounded w-full block">
+			<ul className="grid grid-cols-[minmax(0,_1fr)_48px_minmax(60px,_80px)_minmax(60px,_80px)] items-center gap-1 p-1 w-full">
+				<li className="">
+					<span className="p-3 rounded w-full block truncate overflow-hidden text-sm md:text-base">
 						{titleBase.brand} {titleBase.product}{" "}
 						{titleBase.multiplier > 0 && `(X${titleBase.multiplier})`}
 					</span>
 				</li>
-				<li>
+				<li className="">
 					{titleBase.href && (
 						<a
 							href={titleBase.href}
@@ -27,6 +35,30 @@ export function CompileProduct({ titleBase, updateTotal, checked }) {
 						</a>
 					)}
 				</li>
+				{titleBase.note ? (
+					<li className="">
+						<button
+							className="bg-white fill-blue-200 h-12 w-12 p-3 border rounded hover:bg-red-600 hover:fill-white block relative z-20"
+							onClick={(e) => {
+								console.log(
+									e.currentTarget
+										.closest(".product-list")
+										.querySelector(".note-container")
+								);
+
+								e.currentTarget
+									.closest(".product-list")
+									.querySelector(".note-container")
+									.classList.toggle("hidden");
+							}}>
+							<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960">
+								<path d="M240-80q-33 0-56.5-23.5T160-160v-640q0-33 23.5-56.5T240-880h320l240 240v480q0 33-23.5 56.5T720-80H240Zm280-520v-200H240v640h480v-440H520ZM240-800v200-200 640-640Z" />
+							</svg>
+						</button>
+					</li>
+				) : (
+					<li></li>
+				)}
 				<li className="text-right">
 					<OutputPrice
 						price={titleBase.price}
@@ -34,15 +66,14 @@ export function CompileProduct({ titleBase, updateTotal, checked }) {
 						updateTotal={updateTotal}
 					/>
 				</li>
-				{titleBase.note && (
-					<li>
-						<div
-							className="p-3"
-							dangerouslySetInnerHTML={{ __html: titleBase.note }}
-						/>
-					</li>
-				)}
 			</ul>
+			<div className="note-container p-4 hidden">
+				<h2 className="font-bold mb-1 pb-1 border-b">Notes:</h2>
+				<div
+					className="p-1"
+					dangerouslySetInnerHTML={{ __html: titleBase.note }}
+				/>
+			</div>
 		</div>
 	);
 }

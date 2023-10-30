@@ -13,7 +13,7 @@ const DataVan = {
 	exterior: {
 		rack: {
 			brand: "FVCO",
-			product: '144" Standard Sprinter Roof Rack',
+			product: "Standard Sprinter Roof Rack",
 			href: "https://flatlinevanco.com/collections/sprinter/products/standard-roof-rack-sprinter-vans",
 			price: 1995,
 		},
@@ -213,7 +213,7 @@ const DataVan = {
 			},
 			stove: {
 				brand: "Partner Steel",
-				product: "2 Burner Partner Stoves With Windscreens",
+				product: "Two Burner Partner Stoves With Windscreens",
 				href: "https://partnersteel.com/shop/ols/products/2-burner-partner-stoves-with-windscreens/v/2-BRN-PRT-STV-16-LFT-SD",
 				price: 470,
 			},
@@ -227,9 +227,10 @@ const DataVan = {
 		technology: {
 			solarPanel: {
 				brand: "EcoFlow",
-				product: "100W Rigid Solar Panel",
+				product: "Rigid Solar Panel - 100W",
 				href: "https://us.ecoflow.com/products/100w-rigid-solar-panel?variant=40133459640393",
 				price: 99,
+				multiplier: 2,
 			},
 			mobileBooster: {
 				brand: "weBoost",
@@ -245,7 +246,7 @@ const DataVan = {
 			},
 			hornKit: {
 				brand: "Agile Offroad",
-				product: "Agile Horn Kit Sprinter 2019+",
+				product: "Agile Horn Kit Sprinter",
 				href: "https://agileoffroad.com/product/agile-horn-kit-sprinter-2019/",
 				price: 80,
 			},
@@ -333,40 +334,37 @@ export default function Home() {
 		setOrderTotal(newTotal);
 	};
 
-	const ulCSS = "grid grid-cols-[minmax(160px,_220px)_1fr] gap-2 w-full";
+	const ulCSS =
+		"grid grid-cols-[1fr] md:grid-cols-[minmax(160px,_220px)_1fr] gap-2 w-full";
 
 	return (
-		<main className="max-w-screen-2xl mx-auto p-2 lg:p-8">
+		<main className="max-w-screen-2xl mx-auto p-2">
 			<h1 className="text-2xl text-blue-900 mb-4 font-extrabold col-span-2 text-center">
 				2023 SPRINTER 144 HIGH ROOF AWD BUILD:
 			</h1>
-			<ul className="grid grid-cols-[200px_1fr] items-start gap-1 p-10 max-w-screen-2xl mx-auto 2xl:p-2 mb-8">
-				<li className="sticky top-0 p-2">
-					<div className="border p-4">
+			<ul className="grid grid-cols-[1fr] lg:grid-cols-[200px_1fr] items-start gap-1 max-w-screen-2xl mx-auto xl:p-1 mb-8">
+				<li className="sticky top-0 p-2 bg-white z-50">
+					<div className="lg:border p-1">
 						<div>Total: ${orderTotal}</div>
-						<div className="text-xs mt-2" id="inputs-container">
+						<div className="text-xs mt-2 hidden lg:block" id="inputs-container">
 							{inputs.test &&
 								inputs.test.map((input, i) => {
+									const id = input.product.replace(/\s/g, "-").toLowerCase();
+
 									return (
 										<div key={i} className="flex gap-1">
 											<input
 												data-price={input.price}
-												className={`peer/${input.product
-													.replace(/\s/g, "-")
-													.toLowerCase()} mr-2`}
+												className={`peer mr-2`}
 												id={input.product.replace(/\s/g, "-").toLowerCase()}
-												name={
-													input.inputType === "radio"
-														? input.group
-														: input.product
-												}
+												name={input.inputType === "radio" ? input.group : id}
 												value={i}
 												type={input.inputType}
 												checked={input.checked}
 												onChange={(e) => handleChange(e, input.checked)}
 											/>
 											<label
-												className="truncate overflow-hidden"
+												className={`truncate overflow-hidden line-through peer-checked:no-underline`}
 												htmlFor={input.product
 													.replace(/\s/g, "-")
 													.toLowerCase()}>
@@ -379,7 +377,7 @@ export default function Home() {
 					</div>
 				</li>
 				<li className="p-2">
-					<div className="border p-4">
+					<div className="lg:border p-1">
 						<h2 className="text-xl text-blue-800 mb-2 font-bold">Exterior:</h2>
 						<ul className={ulCSS}>
 							{Object.keys(DataVan.exterior).map((title, i) => {

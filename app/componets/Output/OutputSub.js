@@ -6,7 +6,7 @@ import { OutputMain } from "./";
 
 export function OutputSub({ products, updateTotal }) {
 	return (
-		<ul className="grid grid-cols-[200px_1fr]">
+		<ul className="grid grid-cols-[1fr] lg:grid-cols-[200px_1fr]">
 			{Object.keys(products).map((title, i) => {
 				return products[title].product ? (
 					<OutputMain
