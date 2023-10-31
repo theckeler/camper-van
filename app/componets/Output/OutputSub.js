@@ -4,7 +4,7 @@ import { OutputInputs } from "./OutputInputs";
 import { H2 } from "../H2";
 import { OutputMain } from "./";
 
-export function OutputSub({ products, updateTotal }) {
+export function OutputSub({ products, handleChange, inputs }) {
 	return (
 		<ul className="grid grid-cols-[1fr] lg:grid-cols-[200px_1fr]">
 			{Object.keys(products).map((title, i) => {
@@ -13,7 +13,8 @@ export function OutputSub({ products, updateTotal }) {
 						title={title}
 						titleBase={products[title]}
 						key={i}
-						updateTotal={updateTotal}
+						handleChange={handleChange}
+						inputs={inputs}
 					/>
 				) : (
 					<Fragment key={i}>
@@ -22,9 +23,10 @@ export function OutputSub({ products, updateTotal }) {
 						</li>
 						<li>
 							<OutputInputs
-								inputs={products[title]}
+								inputsData={products[title]}
 								subtitle={title}
-								updateTotal={updateTotal}
+								handleChange={handleChange}
+								inputs={inputs}
 							/>
 						</li>
 					</Fragment>

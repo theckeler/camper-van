@@ -2,10 +2,18 @@
 import { OutputSub } from "./OutputSub";
 import { CompileProduct } from "@/app/componets/CompileProduct";
 
-export function OutputProduct({ titleBase, updateTotal }) {
+export function OutputProduct({ titleBase, handleChange, inputs }) {
 	return titleBase.product ? (
-		<CompileProduct titleBase={titleBase} updateTotal={updateTotal} />
+		<CompileProduct
+			titleBase={titleBase}
+			handleChange={handleChange}
+			inputs={inputs}
+		/>
 	) : (
-		<OutputSub products={titleBase} updateTotal={updateTotal} />
+		<OutputSub
+			products={titleBase}
+			handleChange={handleChange}
+			inputs={inputs}
+		/>
 	);
 }

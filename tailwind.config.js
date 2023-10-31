@@ -1,3 +1,9 @@
+const array = Array(80);
+let arrayBuild = [];
+for (var i = 0; i < array.length; i++) {
+	arrayBuild.push(`peer-checked-[.input-${i}]:no-underline`);
+}
+
 /** @type {import('tailwindcss').Config} */
 module.exports = {
 	content: [
@@ -5,6 +11,8 @@ module.exports = {
 		"./components/**/*.{js,ts,jsx,tsx,mdx}",
 		"./app/**/*.{js,ts,jsx,tsx,mdx}",
 	],
+	safelist: arrayBuild,
+
 	theme: {
 		extend: {
 			backgroundImage: {

@@ -2,7 +2,13 @@
 import { useState, useEffect } from "react";
 import { OutputPrice } from "./Output/OutputPrice";
 
-export function CompileProduct({ titleBase, updateTotal }) {
+export function CompileProduct({
+	titleBase,
+	handleChange,
+	inputs,
+	inputType = "checkbox",
+	i = 0,
+}) {
 	const id = titleBase.product.replace(/\s/g, "-").toLowerCase();
 
 	// useEffect(() => {
@@ -10,13 +16,37 @@ export function CompileProduct({ titleBase, updateTotal }) {
 	// 	console.log(id);
 	// }, [id]);
 
+	console.log(i);
+
 	return (
 		<div className="p-1 mb-1 relative product-list">
 			<label
-				className={`absolute top-0 left-0 w-full h-full z-10 border hover:border-cyan-500 cursor-pointer`}
+				className={`absolute top-0 left-0 w-full h-full z-10 border hover:border-cyan-500`}
 				htmlFor={id}
+				onClick={(e) => {
+					//handleChange;
+					const productChecked =
+						e.target.parentElement.querySelector(".product-checked");
+					console.log(productChecked.classList.contains("hidden"));
+
+					productChecked.classList.contains("hidden")
+						? productChecked.classList.remove("hidden")
+						: productChecked.classList.add("hidden");
+				}}
 			/>
-			<ul className="grid grid-cols-[minmax(0,_1fr)_48px_minmax(60px,_80px)_minmax(60px,_80px)] items-center gap-1 p-1 w-full">
+			<ul className="grid grid-cols-[48px_minmax(0,_1fr)_48px_minmax(60px,_80px)_minmax(60px,_80px)] items-center gap-1 p-1 w-full">
+				<li className="">
+					<svg
+						xmlns="http://www.w3.org/2000/svg"
+						viewBox="0 0 24 24"
+						className="bg-white fill-blue-300 h-12 w-12 p-2 block relative z-20">
+						<path d="M21.2 8.1c-.5-1.2-1.2-2.3-2.1-3.2-.9-.9-2-1.6-3.2-2.1-1.2-.5-2.5-.8-3.9-.8s-2.7.3-3.9.8C6.9 3.3 5.8 4 4.9 4.9c-.9.9-1.6 2-2.1 3.2C2.3 9.3 2 10.6 2 12s.3 2.7.8 3.9c.5 1.2 1.2 2.3 2.1 3.2.9.9 2 1.6 3.2 2.1 1.2.5 2.5.8 3.9.8s2.7-.3 3.9-.8c1.2-.5 2.3-1.2 3.2-2.1.9-.9 1.6-2 2.1-3.2.5-1.2.8-2.5.8-3.9s-.3-2.7-.8-3.9zm-3.5 9.6C16.1 19.2 14.2 20 12 20s-4.1-.8-5.7-2.3S4 14.2 4 12s.8-4.1 2.3-5.7S9.8 4 12 4s4.1.8 5.7 2.3S20 9.8 20 12s-.8 4.1-2.3 5.7z" />
+						<path
+							d="m10.6 16.6 7-7-1.4-1.5-5.6 5.7-2.8-2.9-1.5 1.4z"
+							className="product-checked"
+						/>
+					</svg>
+				</li>
 				<li className="">
 					<span className="p-3 rounded w-full block truncate overflow-hidden text-sm md:text-base">
 						{titleBase.brand} {titleBase.product}{" "}
@@ -63,7 +93,6 @@ export function CompileProduct({ titleBase, updateTotal }) {
 					<OutputPrice
 						price={titleBase.price}
 						multiplier={titleBase.multiplier}
-						updateTotal={updateTotal}
 					/>
 				</li>
 			</ul>

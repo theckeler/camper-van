@@ -138,6 +138,21 @@ const DataVan = {
 				note: "",
 			},
 		},
+		cabinets: {
+			overhead: {
+				brand: "Lost Hiway",
+				product: "Sprinter Overhead Cabinet",
+				href: "https://losthiway.square.site/product/SPRINTER-OVERHEAD-CABINET/20",
+				price: 725,
+			},
+			galley: {
+				brand: "Lost Hiway",
+				product: "SL Galley",
+				href: "https://losthiway.square.site/product/SL-GALLEY/22",
+				price: 4365,
+			},
+		},
+
 		headlinerShelf: {
 			brand: "Radius Outfitters",
 			product: "Gear Loft",
@@ -157,10 +172,19 @@ const DataVan = {
 			price: 1200,
 		},
 		electricalSystem: {
-			brand: "EcoFlow",
-			product: "DELTA Pro Portable Power Station",
-			href: "https://www.rei.com/product/206379/ecoflow-delta-pro-portable-power-station",
-			price: 2999,
+			allInOne: {
+				brand: "EcoFlow",
+				product: "DELTA Pro Portable Power Station",
+				href: "https://www.rei.com/product/206379/ecoflow-delta-pro-portable-power-station",
+				price: 2999,
+			},
+			solarPanels: {
+				brand: "EcoFlow",
+				product: "Rigid Solar Panel - 100W",
+				href: "https://us.ecoflow.com/products/100w-rigid-solar-panel?variant=40133459640393",
+				price: 99,
+				multiplier: 2,
+			},
 		},
 		flooring: {
 			complete: {
@@ -196,14 +220,10 @@ const DataVan = {
 		},
 		garage: {
 			storage: {
-				checkbox: [
-					{
-						brand: "Canyon Adventure Vans",
-						product: "Doorganizer",
-						href: "https://canyonadventurevans.com/product/van-door-organizer/",
-						price: 70,
-					},
-				],
+				brand: "Canyon Adventure Vans",
+				product: "Doorganizer",
+				href: "https://canyonadventurevans.com/product/van-door-organizer/",
+				price: 70,
 			},
 			pullOutTray: {
 				brand: "FVCO",
@@ -225,13 +245,6 @@ const DataVan = {
 			price: 960,
 		},
 		technology: {
-			solarPanel: {
-				brand: "EcoFlow",
-				product: "Rigid Solar Panel - 100W",
-				href: "https://us.ecoflow.com/products/100w-rigid-solar-panel?variant=40133459640393",
-				price: 99,
-				multiplier: 2,
-			},
 			mobileBooster: {
 				brand: "weBoost",
 				product: "Drive Reach RV Cell Phone Signal Booster Kit",
@@ -267,7 +280,7 @@ export default function Home() {
 		let total = 0;
 		getKeysLoop(DataVan);
 		function getKeysLoop(obj) {
-			Object.keys(obj).map((k, i, array) => {
+			Object.keys(obj).map((k, i) => {
 				if (typeof obj[k] == "object" && !obj[k].length) {
 					getKeysLoop(obj[k]);
 				} else if (i === 0) {
@@ -296,6 +309,7 @@ export default function Home() {
 	}, []);
 
 	const handleChange = (e, checked) => {
+		//	console.log("handleChange");
 		const changeInput = inputs;
 		let total = 0;
 
@@ -339,12 +353,19 @@ export default function Home() {
 
 	return (
 		<main className="max-w-screen-2xl mx-auto p-2">
+			{/* <div>
+				{Array.from(Array(80).keys()).map(
+					(i) => `
+					peer-checked-[.input-${i}]:no-underline
+					`
+				)}
+			</div> */}
 			<h1 className="text-2xl text-blue-900 mb-4 font-extrabold col-span-2 text-center">
 				2023 SPRINTER 144 HIGH ROOF AWD BUILD:
 			</h1>
 			<ul className="grid grid-cols-[1fr] lg:grid-cols-[200px_1fr] items-start gap-1 max-w-screen-2xl mx-auto xl:p-1 mb-8">
 				<li className="sticky top-0 p-2 bg-white z-50">
-					<div className="lg:border p-1">
+					<div className="lg:border p-1 lg:p-4">
 						<div>Total: ${orderTotal}</div>
 						<div className="text-xs mt-2 hidden lg:block" id="inputs-container">
 							{inputs.test &&
@@ -355,19 +376,21 @@ export default function Home() {
 										<div key={i} className="flex gap-1">
 											<input
 												data-price={input.price}
-												className={`peer mr-2`}
+												className={`input-${i} peer mr-2 `}
 												id={input.product.replace(/\s/g, "-").toLowerCase()}
-												name={input.inputType === "radio" ? input.group : id}
+												// name={
+												// 	input.inputType === "radio"
+												// 		? input.group
+												// 		: id + "-name"
+												// }
 												value={i}
 												type={input.inputType}
 												checked={input.checked}
 												onChange={(e) => handleChange(e, input.checked)}
 											/>
 											<label
-												className={`truncate overflow-hidden line-through peer-checked:no-underline`}
-												htmlFor={input.product
-													.replace(/\s/g, "-")
-													.toLowerCase()}>
+												className={`truncate overflow-hidden line-through peer-checked-[.input-${i}]:no-underline`}
+												htmlFor={id}>
 												{input.product}
 											</label>
 										</div>
@@ -377,7 +400,7 @@ export default function Home() {
 					</div>
 				</li>
 				<li className="p-2">
-					<div className="lg:border p-1">
+					<div className="lg:p-4 lg:border p-1">
 						<h2 className="text-xl text-blue-800 mb-2 font-bold">Exterior:</h2>
 						<ul className={ulCSS}>
 							{Object.keys(DataVan.exterior).map((title, i) => {
@@ -388,6 +411,8 @@ export default function Home() {
 										key={i}
 										className="bg-blue-800 text-white"
 										updateTotal={updateTotal}
+										handleChange={handleChange}
+										inputs={inputs}
 									/>
 								);
 							})}
@@ -403,6 +428,8 @@ export default function Home() {
 										key={i}
 										className="bg-blue-800 text-white rounded"
 										updateTotal={updateTotal}
+										handleChange={handleChange}
+										inputs={inputs}
 									/>
 								);
 							})}
